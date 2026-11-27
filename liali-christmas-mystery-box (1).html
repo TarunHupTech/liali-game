@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Christmas at Liali · Mystery Box — Concept Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine:#7a1424; --wine-deep:#3d0710; --wine-ink:#24040a;
+  --gold:#c9a24f; --gold-hi:#f0d896; --gold-lo:#9c7a33;
+  --ivory:#fbf7f0; --cream:#f3ece0; --ink:#2b1d16; --muted:#7d6a5c;
+  --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans:'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--sans);color:var(--ink);background:var(--ivory);-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+a{color:inherit}
+
+/* ---------- Backdrop: Liali-style storefront (inspired by, not a copy of, the live site) ---------- */
+.site{--m:#5f1d26;--m2:#4a141c;--beige:#f3ecd6;--grey:#f6f6f6;--t:#1f1f1f;--mut:#6f6f6f;--pop:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;font-family:var(--pop);color:var(--t);background:#fff}
+.site a{text-decoration:none;color:inherit}
+.site img{display:block;max-width:100%}
+.topbar{background:var(--m);color:#fff;font-size:13px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 38px;height:44px}
+.topbar .cur{display:flex;gap:8px;align-items:center;opacity:.95}
+.topbar .msgs{position:relative;height:20px;min-width:460px;text-align:center}
+.topbar .msgs span{position:absolute;inset:0;opacity:0;transition:opacity .7s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .msgs span.on{opacity:1}
+.topbar .right{justify-self:end;display:flex;gap:22px;align-items:center}
+.topbar svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:1.6}
+.hdr{display:flex;align-items:center;gap:34px;height:76px;padding:0 38px;background:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid #eee}
+.logo{position:relative;font-family:'Cinzel',Georgia,serif;font-size:33px;font-weight:600;color:#5a1a2b;letter-spacing:.05em;line-height:1;padding-top:6px}
+.logo .si{position:relative}
+.logo i{position:absolute;left:50%;margin-left:-4.5px;top:-9px;width:9px;height:9px;background:#8a5c45;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+.nav{display:flex;gap:28px;font-size:14px;flex:1;white-space:nowrap}
+.nav a{display:flex;align-items:center;gap:6px}
+.nav a.xmas{color:var(--m);font-weight:500}
+.nav svg{width:10px;height:10px;stroke:#333;fill:none;stroke-width:1.6}
+.icons{display:flex;gap:20px;margin-left:auto}
+.icons svg{width:22px;height:22px;stroke:#111;fill:none;stroke-width:1.6}
+.subnav{background:var(--beige);display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:14px;height:36px;align-items:center}
+.subnav a.hl{color:var(--m);font-weight:500}
+/* hero */
+.hero{position:relative;overflow:hidden;min-height:600px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;padding:60px 8vw;color:#f6efe6;
+  background:radial-gradient(60% 90% at 78% 50%, #5c1622 0%, #2a070d 55%, #0d0204 100%)}
+.hero .snowfx{position:absolute;inset:0;pointer-events:none}
+.hero h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(52px,6.6vw,96px);line-height:.95;margin:0;color:#fbf5ec}
+.hero .div{display:flex;align-items:center;gap:14px;margin:22px 0 18px;width:min(380px,90%)}
+.hero .div::before,.hero .div::after{content:"";flex:1;height:1px;background:rgba(240,216,150,.7)}
+.hero .div b{width:14px;height:14px;background:#f0d896;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+.hero .tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(26px,2.8vw,40px);line-height:1.15;color:#efe3d2;margin:0}
+.hero .perks{display:flex;align-items:center;gap:20px;margin-top:40px;font-size:13px;line-height:1.25;color:#e9dccc;flex-wrap:wrap}
+.hero .perks .sep{width:1px;height:42px;background:rgba(255,255,255,.4)}
+.hero .perks .pay{display:flex;gap:6px}
+.hero .perks .pay span{font-weight:600;font-size:13px;padding:5px 9px;border-radius:7px;color:#111}
+.hero .cta{display:inline-block;margin-top:34px;border:1px solid #f0d896;color:#f0d896;padding:13px 34px;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.hero .art{position:relative;justify-self:center;width:min(430px,100%);aspect-ratio:4/5}
+.hero .arch{position:absolute;inset:0;border-radius:220px 220px 10px 10px;overflow:hidden;background:linear-gradient(180deg,#f7f1ea,#e9dfd3);box-shadow:0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(240,216,150,.5), 0 0 0 12px rgba(240,216,150,.08)}
+.hero .arch img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.arch-fb{position:absolute;inset:0;display:grid;place-items:center}
+.arch-fb svg{width:62%;filter:drop-shadow(0 10px 24px rgba(156,122,51,.45))}
+.hero .ribbon{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);background:var(--m);color:#f0d896;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:10px 22px;white-space:nowrap;box-shadow:0 10px 20px rgba(0,0,0,.35)}
+/* trust strip */
+.trust{background:var(--grey);display:grid;grid-template-columns:repeat(6,1fr);padding:22px 38px}
+.trust div{display:flex;align-items:center;gap:14px;font-size:13.5px;line-height:1.35;padding:0 16px;border-right:1px solid #ddd}
+.trust div:last-child{border:0}
+.trust img{width:30px;height:30px;object-fit:contain;flex:none}
+/* sections */
+.sec{padding:64px 38px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px}
+.sec-h h2{font-weight:400;font-size:28px;margin:0}
+.sec-h a{color:var(--m);font-size:15px}
+.center-h{text-align:center;margin-bottom:30px}
+.center-h h2{font-weight:500;font-size:32px;margin:0 0 6px}
+.center-h p{color:var(--mut);margin:0;font-weight:300}
+.cats{display:grid;grid-template-columns:repeat(5,1fr);gap:22px}
+.cats .ph{aspect-ratio:3/4;background:#ece7e1;overflow:hidden}
+.cats img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.cats a:hover img{transform:scale(1.04)}
+.cats span{display:block;margin-top:12px;font-size:15px}
+.book{display:flex;justify-content:center;align-items:center;gap:50px;padding:10px 38px 60px;flex-wrap:wrap}
+.book h3{font-weight:400;font-size:30px;margin:0 0 6px}
+.book p{margin:0;color:var(--mut);font-weight:300;font-size:14px}
+.book .btns{display:flex;gap:14px}
+.site .mbtn{color:#fff}
+.mbtn{display:inline-flex;align-items:center;gap:10px;background:var(--m);color:#fff;padding:17px 44px;font-size:15px;border:0}
+.prods{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.prod .ph{position:relative;aspect-ratio:1;background:var(--grey);overflow:hidden}
+.prod .ph img{width:100%;height:100%;object-fit:cover}
+.prod .badge{position:absolute;top:0;left:0;background:var(--m);color:#fff;font-size:12px;padding:6px 9px}
+.prod .nm{font-size:14px;color:#444;font-weight:300;margin:14px 0 8px}
+.prod .pr{font-size:17px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:38px;padding:0 38px 70px}
+.duo .ph{aspect-ratio:1/1;background:#ddd;overflow:hidden}
+.duo img{width:100%;height:100%;object-fit:cover}
+.duo h3{font-weight:400;font-size:24px;margin:18px 0 6px}
+.duo a.ex{color:var(--m);font-size:14px}
+.ring{background:var(--beige);display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:40px;padding:70px 8vw}
+.ring h2{font-weight:500;font-size:34px;margin:0 0 14px}
+.ring p{font-weight:300;line-height:1.7;color:#444;margin:0 0 26px}
+.ring .btns{display:flex;gap:14px;flex-wrap:wrap}
+.ring .mbtn.alt{background:#8a6a4f}
+.ring .ph{justify-self:center;width:min(360px,100%);aspect-ratio:1;border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 30px 60px rgba(95,29,38,.15)}
+.ring .ph img{width:100%;height:100%;object-fit:cover}
+.news{margin:60px 38px 0;background:var(--grey);padding:46px}
+.news h3{font-weight:400;font-size:28px;margin:0 0 12px;max-width:480px;line-height:1.35}
+.news p{font-weight:300;color:#444;margin:0;max-width:440px}
+.foot{display:grid;grid-template-columns:repeat(3,1fr);padding:40px 85px 20px;font-size:14px}
+.foot h4{color:var(--m);font-weight:400;font-size:21px;margin:0 0 24px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.social{display:flex;justify-content:center;gap:24px;padding:24px 0 34px;font-size:13px;color:#333}
+.bottom{background:var(--m);color:#fff;font-size:13.5px;display:flex;justify-content:space-between;padding:10px 38px 12px}
+@media (max-width:1180px){.nav{display:none}.trust{grid-template-columns:repeat(3,1fr);row-gap:16px}.trust div:nth-child(3){border:0}}
+@media (max-width:900px){
+  .topbar{grid-template-columns:1fr;padding:0 14px;font-size:12px}.topbar .cur,.topbar .right{display:none}.topbar .msgs{min-width:0}
+  .hdr{padding:0 16px;height:64px}.logo{font-size:28px}
+  .subnav{grid-template-columns:repeat(2,1fr);height:auto;padding:6px 0;row-gap:4px;font-size:13px}
+  .hero{grid-template-columns:1fr;padding:46px 24px 70px;text-align:center;gap:40px}.hero .div{margin-left:auto;margin-right:auto}.hero .perks{justify-content:center}
+  .trust{grid-template-columns:repeat(2,1fr);padding:18px 14px}.trust div{border:0;padding:0 6px;font-size:12.5px}
+  .sec{padding:46px 16px}.cats{grid-template-columns:repeat(2,1fr);gap:14px}.prods{grid-template-columns:repeat(2,1fr);gap:14px}
+  .duo{grid-template-columns:1fr;padding:0 16px 50px}.ring{grid-template-columns:1fr;padding:50px 20px}
+  .news{margin:40px 16px 0;padding:30px 22px}.foot{grid-template-columns:1fr;padding:30px 22px;gap:30px}
+  .bottom{flex-direction:column;gap:4px;padding:12px 16px 90px}
+}
+
+/* ---------- Demo controls (not part of production) ---------- */
+.demo{position:fixed;left:14px;bottom:14px;z-index:60;width:256px;background:rgba(22,13,11,.93);color:#f1e7da;border-radius:12px;font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.28);backdrop-filter:blur(6px)}
+.demo summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;letter-spacing:.14em;text-transform:uppercase;font-size:10.5px;color:var(--gold-hi)}
+.demo summary::-webkit-details-marker{display:none}
+.demo[open] summary .chev{transform:rotate(180deg)}
+.demo .body{padding:0 14px 14px;display:grid;gap:10px}
+.demo .timer{font-size:13px;color:#fff}
+.demo .timer b{font-variant-numeric:tabular-nums;color:var(--gold-hi)}
+.demo .hint{font-size:10.5px;color:#9e8c7c;line-height:1.4}
+.demo label{display:grid;gap:4px;color:#bfae9c}
+.demo select{background:#2a1c18;color:#fff;border:1px solid #4a3a33;border-radius:6px;padding:6px;font:inherit}
+.demo .row{display:flex;gap:8px}
+.demo button{flex:1;border:0;border-radius:6px;padding:8px;cursor:pointer;font:inherit}
+.demo .go{background:var(--gold);color:#2a0a10;font-weight:600}
+.demo .rs{background:#3a2a24;color:#f1e7da}
+.demo .tw{display:grid;gap:5px;padding:8px 10px;border:1px solid #3a2a24;border-radius:8px}
+.demo .tw b{font-weight:500;color:#bfae9c;font-size:11px}
+.demo .tw label{display:flex;gap:7px;align-items:center;color:#f1e7da;cursor:pointer}
+.demo .tw input{accent-color:var(--gold);margin:0}
+.demo .body{max-height:calc(100vh - 80px);overflow-y:auto}
+.bar{height:3px;background:#3a2a24;border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width 1s linear}
+@media (max-width:600px){.demo{width:auto;right:auto;max-width:230px}.demo:not([open]){width:auto}}
+
+/* ---------- Floating launcher ---------- */
+.launcher{position:fixed;right:16px;bottom:16px;z-index:60;display:none;align-items:center;gap:10px;padding:8px 18px 8px 8px;border:1px solid rgba(240,216,150,.5);border-radius:999px;
+  background:linear-gradient(180deg,#8a1a2b,#4a0a14);color:var(--gold-hi);font:500 13px var(--sans);letter-spacing:.05em;cursor:pointer;animation:pulse 2.4s infinite}
+.launcher.show{display:flex}
+.launcher .ic{width:40px;height:40px;display:block}
+.launcher .ic svg{width:100%;height:100%;overflow:visible}
+@keyframes pulse{0%,100%{box-shadow:0 10px 30px rgba(74,10,20,.4),0 0 0 0 rgba(240,216,150,.45)}50%{box-shadow:0 10px 30px rgba(74,10,20,.4),0 0 0 10px rgba(240,216,150,0)}}
+
+/* ---------- Modal ---------- */
+.overlay{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:12px;background:rgba(20,4,8,.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.overlay.open{opacity:1;visibility:visible}
+.modal{position:relative;width:min(560px,100%);max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);border-radius:20px;color:var(--ivory);display:flex;flex-direction:column;overflow:hidden;
+  background:radial-gradient(120% 70% at 50% 0%, #8a1a2b 0%, #520b17 45%, #2a050b 100%);
+  box-shadow:0 30px 80px rgba(0,0,0,.5), inset 0 0 0 1px rgba(240,216,150,.4), inset 0 0 0 8px rgba(240,216,150,.07);
+  transform:translateY(24px) scale(.97);transition:transform .5s cubic-bezier(.2,.9,.3,1.2)}
+.overlay.open .modal{transform:none}
+.snow{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.flake{position:absolute;top:-12px;border-radius:50%;background:#fff;animation:fall linear infinite}
+@keyframes fall{to{transform:translate3d(var(--dx),760px,0)}}
+.scroll{position:relative;overflow-y:auto;padding:30px 32px 28px;-webkit-overflow-scrolling:touch}
+.close{position:absolute;top:12px;right:12px;z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid rgba(240,216,150,.35);background:rgba(0,0,0,.22);color:var(--gold-hi);font-size:20px;line-height:1;cursor:pointer}
+.brandline{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold-hi);font-family:var(--serif);letter-spacing:.34em;font-size:14px;font-weight:600;margin-bottom:14px}
+.brandline::before,.brandline::after{content:"";height:1px;width:46px;background:linear-gradient(90deg,transparent,var(--gold))}
+.brandline::after{transform:scaleX(-1)}
+.screen{display:none;text-align:center}
+.screen.active{display:block;animation:fadeUp .45s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.m-eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-hi)}
+.m-title{font-family:var(--serif);font-weight:500;font-size:clamp(30px,7vw,42px);line-height:1.08;margin:8px 0 10px}
+.m-title em{font-style:italic;color:var(--gold-hi)}
+.m-text{color:#ecdccd;font-weight:300;line-height:1.6;font-size:15px;margin:0 auto 18px;max-width:420px}
+.m-text b{color:var(--gold-hi);font-weight:500}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 22px}
+.step{border:1px solid rgba(240,216,150,.22);border-radius:12px;padding:12px 8px;font-size:12px;color:#e6d4c2;background:rgba(0,0,0,.14)}
+.step b{display:block;font-family:var(--serif);font-size:22px;color:var(--gold-hi);font-weight:600;line-height:1;margin-bottom:4px}
+.btn-gold{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;max-width:340px;border:0;border-radius:999px;padding:16px 28px;cursor:pointer;text-decoration:none;
+  background:linear-gradient(180deg,#f6e3a8 0%,#d8b463 50%,#b08a3c 100%);color:#3a0a12;font:600 13px var(--sans);letter-spacing:.18em;text-transform:uppercase;box-shadow:0 8px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.6)}
+.btn-gold::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:shine 3.2s infinite}
+@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+.btn-gold:disabled{opacity:.55;cursor:not-allowed}
+.btn-gold:disabled::after{display:none}
+.link{background:none;border:0;color:#cdb6a2;font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;margin-top:14px;padding:0}
+.fine{font-size:11px;color:#bba291;margin:14px 0 0;line-height:1.55}
+
+/* intro boxes */
+.intro-boxes{display:flex;justify-content:center;align-items:flex-end;gap:5%;height:128px;margin:10px 0 14px}
+.mini{width:92px;animation:floaty 3s ease-in-out infinite}
+.mini:nth-child(2){width:112px;animation-delay:-1s}
+.mini:nth-child(3){animation-delay:-2s}
+.mini svg{width:100%;overflow:visible;display:block}
+@keyframes floaty{50%{transform:translateY(-8px)}}
+
+/* game */
+.game-head{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+.pill{border:1px solid rgba(240,216,150,.3);border-radius:999px;padding:5px 11px;color:var(--gold-hi)}
+.msg{font-family:var(--serif);font-size:24px;min-height:64px;display:flex;align-items:center;justify-content:center;line-height:1.2;padding:0 6px}
+.stage{position:relative;width:100%;max-width:480px;margin:0 auto}
+.box{position:absolute;left:0;top:0;padding:0;border:0;background:none;cursor:default;-webkit-tap-highlight-color:transparent;will-change:transform;color:inherit}
+.box:disabled{cursor:default}
+.box:focus-visible{outline:2px solid var(--gold-hi);outline-offset:6px;border-radius:10px}
+.box-inner{position:relative;display:block;width:100%;height:100%;transition:filter .3s, opacity .4s}
+.box-inner::after{content:"";position:absolute;left:10%;right:10%;bottom:-7%;height:12%;background:radial-gradient(closest-side,rgba(0,0,0,.5),transparent);z-index:0}
+svg.giftbox{position:relative;z-index:2;width:100%;height:100%;overflow:visible;display:block}
+.lid{transform-box:fill-box;transform-origin:0% 100%;transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
+.box.open .lid{transform:translate(-22px,-18px) rotate(-42deg)}
+.prize{position:absolute;z-index:1;left:50%;bottom:16%;width:66%;height:46%;display:grid;place-items:center;transform:translate(-50%,0);opacity:0;transition:transform .6s cubic-bezier(.2,1.3,.4,1), opacity .3s}
+.box.reveal .prize{transform:translate(-50%,-92%);opacity:1}
+.prize svg{width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 10px rgba(255,220,140,.8))}
+.voucher{display:grid;place-items:center;width:84%;aspect-ratio:1.5;border-radius:8px;background:linear-gradient(160deg,#fff8ea,#efdcb8);color:var(--wine-deep);border:1.5px dashed var(--gold-lo);box-shadow:0 0 16px rgba(255,220,140,.55);font:700 clamp(15px,4.4vw,24px)/1 var(--serif)}
+.voucher small{display:block;font:600 9px var(--sans);letter-spacing:.2em;margin-top:2px}
+.box.pickable{cursor:pointer}
+.box.pickable .box-inner{animation:bob 1.4s ease-in-out infinite}
+.box.pickable[data-slot="1"] .box-inner{animation-delay:-.45s}
+.box.pickable[data-slot="2"] .box-inner{animation-delay:-.9s}
+.box.pickable:hover .box-inner{filter:drop-shadow(0 0 16px rgba(240,216,150,.75)) brightness(1.08)}
+@keyframes bob{50%{transform:translateY(-7px)}}
+.box.chosen .box-inner{filter:drop-shadow(0 0 22px rgba(240,216,150,.95))}
+.box.dim .box-inner{opacity:.38}
+.game-cta{margin-top:6px}
+.twist-line{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#d9b9a0;margin:2px 0 0;min-height:14px}
+.pill.urgent{background:#c22339;border-color:#ff8b7a;color:#fff;animation:urgent .5s ease-in-out infinite alternate}
+@keyframes urgent{to{transform:scale(1.08)}}
+.stage.dark .box-inner{filter:brightness(.16) saturate(.3)}
+.stage.dark .box-inner::after{opacity:.3}
+.box-inner{transition:filter .12s, opacity .4s;transform-origin:50% 100%}
+.overlay.nocursor, .overlay.nocursor *{cursor:none !important}
+.glint{position:absolute;z-index:3;left:58%;top:30%;width:26%;opacity:0;pointer-events:none;transform:scale(0) rotate(0)}
+.glint svg{width:100%;display:block;filter:drop-shadow(0 0 6px #fff3c4) drop-shadow(0 0 14px #f0d896)}
+.glint.on{animation:glint .55s ease-out}
+@keyframes glint{0%{opacity:0;transform:scale(0) rotate(0)}40%{opacity:1;transform:scale(1.15) rotate(45deg)}100%{opacity:0;transform:scale(.2) rotate(90deg)}}
+.spark{animation:twinkle 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.spark:nth-of-type(2){animation-delay:-.6s}
+@keyframes twinkle{50%{opacity:.2;transform:scale(.5)}}
+
+/* form */
+.form{display:grid;gap:12px;text-align:left;max-width:400px;margin:0 auto}
+.field label{display:block;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#d9c3ae;margin-bottom:6px}
+.inp,.cc{width:100%;height:50px;border-radius:12px;border:1px solid rgba(240,216,150,.3);background-color:rgba(255,255,255,.06);color:#fff;font:400 16px var(--sans);padding:0 14px;outline:none;transition:border-color .2s,background-color .2s}
+.inp::placeholder{color:#a88f80}
+.inp:focus,.cc:focus{border-color:var(--gold-hi);background-color:rgba(255,255,255,.1)}
+.phone{display:grid;grid-template-columns:118px 1fr;gap:8px}
+.cc{appearance:none;-webkit-appearance:none;padding-right:28px;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23f0d896'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.cc option{color:#000}
+.err{color:#ffb4a8;font-size:12px;margin-top:6px;display:none}
+.field.bad .inp{border-color:#ff8b7a}
+.field.bad .err{display:block}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:#d6c0ad;line-height:1.5;cursor:pointer}
+.consent input{margin-top:3px;width:16px;height:16px;flex:none;accent-color:var(--gold)}
+.form .btn-gold{margin:6px auto 0}
+
+/* otp */
+.otp{display:flex;justify-content:center;gap:8px;margin:18px 0 6px}
+.otp input{width:48px;height:58px;border-radius:12px;text-align:center;font:600 24px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(240,216,150,.3);outline:none;padding:0}
+.otp input:focus{border-color:var(--gold-hi);background:rgba(255,255,255,.12)}
+.otp.ok input{border-color:#9fe0a8}
+.otp.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+#otpErr{text-align:center;min-height:18px}
+.otp-meta{font-size:13px;color:#cdb6a2;margin:14px 0 0}
+@media (max-width:420px){.otp{gap:6px}.otp input{width:42px;height:52px;font-size:21px}.scroll{padding:26px 18px 22px}.phone{grid-template-columns:104px 1fr}}
+
+/* result */
+.trophy{width:150px;margin:10px auto 14px}
+.trophy-img{width:170px;height:170px;object-fit:cover;border-radius:50%;margin:0 auto;display:block;box-shadow:0 0 0 2px rgba(240,216,150,.7),0 0 30px rgba(255,220,140,.45)}
+.trophy svg{width:100%;overflow:visible;filter:drop-shadow(0 0 18px rgba(255,220,140,.7))}
+.trophy .voucher{width:100%;font-size:40px;aspect-ratio:1.6}
+.trophy .voucher small{font-size:12px}
+.prize-card{max-width:380px;margin:0 auto;padding:12px 16px;border-radius:14px;background:rgba(255,248,234,.07);border:1px solid rgba(240,216,150,.25)}
+.prize-card b{display:block;font-family:var(--serif);font-size:21px;font-weight:600}
+.prize-card span{font-size:13px;color:#d9c3ae}
+.code{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:360px;margin:16px auto 8px;padding:9px 9px 9px 18px;border:1.5px dashed var(--gold);border-radius:14px;background:rgba(0,0,0,.2)}
+.code span{font:600 19px var(--sans);letter-spacing:.12em;color:var(--gold-hi)}
+.code button{border:0;border-radius:10px;background:var(--gold-hi);color:#3a0a12;font:600 11.5px var(--sans);letter-spacing:.12em;padding:11px 14px;cursor:pointer;text-transform:uppercase}
+
+/* sms toast (demo stand-in for a real SMS) */
+.sms{position:fixed;top:12px;left:50%;z-index:200;width:min(380px,calc(100% - 24px));transform:translate(-50%,-150%);transition:transform .5s cubic-bezier(.2,1,.3,1);background:rgba(248,248,248,.97);color:#111;border-radius:18px;padding:12px 14px;box-shadow:0 14px 40px rgba(0,0,0,.35);font:14px/1.4 -apple-system,system-ui,sans-serif;cursor:pointer}
+.sms.show{transform:translate(-50%,0)}
+.sms .top{display:flex;justify-content:space-between;font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.sms .tag{font-size:10.5px;color:#a0622d;margin-top:6px}
+#confetti{position:fixed;inset:0;z-index:150;pointer-events:none;width:100%;height:100%}
+</style>
+</head>
+<body>
+
+<!-- Shared SVG gradients -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="lgRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c22339"/><stop offset="1" stop-color="#6e0b1b"/></linearGradient>
+    <linearGradient id="lgRed2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d63a50"/><stop offset="1" stop-color="#8f1326"/></linearGradient>
+    <linearGradient id="lgGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9b4"/><stop offset=".5" stop-color="#d4ad5a"/><stop offset="1" stop-color="#9a7631"/></linearGradient>
+    <linearGradient id="lgShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".14"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient>
+  </defs>
+</svg>
+
+<!-- ================= Liali-style storefront (backdrop for the demo) ================= -->
+<div class="site">
+  <div class="topbar">
+    <div class="cur">🇦🇪 AE <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+    <div class="msgs" id="annMsgs">
+      <span class="on">Play the Christmas Mystery Box — win 18K gold hoops ✦</span>
+      <span>Free Delivery Across UAE</span>
+      <span>Certified Jewellery!</span>
+      <span>Buy Now Pay Later with Easy Installments!</span>
+      <span>4-Hr Delivery in Dubai on Select Pieces</span>
+    </div>
+    <div class="right">
+      <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+      <span style="display:flex;gap:6px;align-items:center"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Visit Us</span>
+    </div>
+  </div>
+  <header class="hdr">
+    <a class="logo" href="#" aria-label="Liali">L<span class="si">I<i></i></span>ALI</a>
+    <nav class="nav">
+      <a href="#">Jewellery <svg viewBox="0 0 10 10"><path d="M1 3l4 4 4-4"/></svg></a>
+      <a href="#">Our Collections <svg viewBox="0 0 10 10"><path d="M1 3l4 4 4-4"/></svg></a>
+      <a href="#">Wedding &amp; Engagement <svg viewBox="0 0 10 10"><path d="M1 3l4 4 4-4"/></svg></a>
+      <a href="#">Gifts &amp; Occasions <svg viewBox="0 0 10 10"><path d="M1 3l4 4 4-4"/></svg></a>
+      <a href="#">Gold <svg viewBox="0 0 10 10"><path d="M1 3l4 4 4-4"/></svg></a>
+      <a href="#">Pearl</a>
+      <a href="#">Diamonds</a>
+      <a href="#" class="xmas">Christmas ✦</a>
+    </nav>
+    <div class="icons">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+    </div>
+  </header>
+  <div class="subnav"><a href="#" class="hl">Christmas Gifts</a><a href="#">Gifts Under AED 1,000</a><a href="#">Liali Essentials</a><a href="#">Best Sellers</a></div>
+
+  <section class="hero">
+    <div class="snowfx" id="heroSnow"></div>
+    <div style="position:relative">
+      <h1>Christmas<br>at Liali</h1>
+      <div class="div"><b></b></div>
+      <p class="tag">Gifts that Glow.<br>Moments that Last.</p>
+      <div class="perks">
+        <span>Free Express<br>Delivery</span><span class="sep"></span>
+        <span>Easy<br>Instalment Plan</span><span class="sep"></span>
+        <span class="pay"><span style="background:#3bffc1">tabby</span><span style="background:linear-gradient(90deg,#f8c7a8,#c6b6f5,#9be2f0)">tamara</span></span>
+      </div>
+      <a class="cta" href="#">Shop the Christmas Edit</a>
+    </div>
+    <div class="art">
+      <div class="arch"><div class="arch-fb" id="archFb"></div><img alt="Dual Textured Twist Hoops in 18K gold" src="https://www.lialijewellery.com/cdn/shop/files/vvjvkjbnm.jpg?v=1794651371&width=900" onerror="this.remove()"></div>
+      <div class="ribbon">The Gold Hoops Edit</div>
+    </div>
+  </section>
+
+  <div class="trust">
+    <div><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Certified.png?v=1748864726&width=72" onerror="this.remove()">International Jewellery Certification</div>
+    <div><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Free_Shipping.png?v=1748868736&width=72" onerror="this.remove()">Free Shipping</div>
+    <div><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Engrave.png?v=1748868737&width=72" onerror="this.remove()">Complimentary Engraving</div>
+    <div><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Return.png?v=1748868737&width=72" onerror="this.remove()">15-Day Exchange Policy</div>
+    <div><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Diamond.png?v=1748868737&width=72" onerror="this.remove()">Lifetime Jewellery Maintenance</div>
+    <div><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Since.png?v=1748868737&width=72" onerror="this.remove()">Award-Winning Jeweller Since 1999</div>
+  </div>
+
+  <section class="sec">
+    <div class="center-h"><h2>The Christmas Gold Edit</h2><p>18K gold hoops to wrap, gift and treasure</p></div>
+    <div class="prods">
+      <a class="prod" href="#"><div class="ph"><span class="badge">Christmas Pick</span><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/vvjvkjbnm.jpg?v=1794651371&width=533" onerror="this.remove()"></div><div class="nm">Dual Textured Twist Hoops 18K Gold (Small)</div><div class="pr">AED 510</div></a>
+      <a class="prod" href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/wedeec.jpg?v=1794548684&width=533" onerror="this.remove()"></div><div class="nm">Textured Hoop Earrings 18K Gold</div><div class="pr">AED 550</div></a>
+      <a class="prod" href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/TexturedGoldOvalHoopEarrings.png?v=1794493222&width=533" onerror="this.remove()"></div><div class="nm">Textured Twist Hoops 18K Gold</div><div class="pr">AED 610</div></a>
+      <a class="prod" href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/PolishedGoldHoopEarringsPair_1.png?v=1794646038&width=533" onerror="this.remove()"></div><div class="nm">Virella 18K Gold Hoop Earrings</div><div class="pr">AED 905</div></a>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="sec-h"><h2>Shop By Category</h2><a href="#">View All ›</a></div>
+    <div class="cats">
+      <a href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Shop-Rings_300x.jpg?v=1758791239&width=600" onerror="this.remove()"></div><span>Rings</span></a>
+      <a href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Shop-Pendants_300x.jpg?v=1758791272&width=600" onerror="this.remove()"></div><span>Pendants</span></a>
+      <a href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Shop-Bangles_300x.jpg?v=1758791400&width=600" onerror="this.remove()"></div><span>Bangles</span></a>
+      <a href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Shop-Necklaces_300x.jpg?v=1758791522&width=600" onerror="this.remove()"></div><span>Necklaces</span></a>
+      <a href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Shop-Bracelets_300x.jpg?v=1758791272&width=600" onerror="this.remove()"></div><span>Bracelets</span></a>
+    </div>
+  </section>
+
+  <div class="book">
+    <div><h3>Book Your Boutique Experience</h3><p>Complimentary cleaning &amp; private viewings arranged around your schedule.</p></div>
+    <div class="btns"><a class="mbtn" href="#">◇ Jewellery Cleaning</a><a class="mbtn" href="#">✦ Private Viewing</a></div>
+  </div>
+
+  <div class="duo">
+    <a href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/emerald-cut_new.avif?v=1779699758&width=1000" onerror="this.remove()"></div><h3>Emerald Cut By Liali</h3><span class="ex">Explore Now ›</span></a>
+    <a href="#"><div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/amara_1.avif?v=1779691501&width=1000" onerror="this.remove()"></div><h3>Tessitore By Liali</h3><span class="ex">Explore Now ›</span></a>
+  </div>
+
+  <section class="ring">
+    <div>
+      <h2>Find the Ring That Tells Your Story</h2>
+      <p>Whether it's a dazzling centrepiece or a timeless symbol of commitment, discover settings and certified diamonds chosen to make the moment yours — just in time for a Christmas proposal.</p>
+      <div class="btns"><a class="mbtn" href="#">Solitaire Rings</a><a class="mbtn alt" href="#">Wedding Bands</a></div>
+    </div>
+    <div class="ph"><img alt="" src="https://www.lialijewellery.com/cdn/shop/files/Solitaire0-5ctring1.jpg?v=1762434855&width=720" onerror="this.remove()"></div>
+  </section>
+
+  <div class="news"><h3>Join Our Email List And Receive A Special Offer!</h3><p>Be the first to know about new designs, special events, store openings and much more.</p></div>
+  <div class="foot">
+    <div><h4>About Liali</h4><ul><li>Our Brand</li><li>Certification</li><li>Press &amp; News</li><li>Liali Advantages</li></ul></div>
+    <div><h4>Customer Service</h4><ul><li>Product Care</li><li>Contact Us</li><li>Shipping &amp; Returns</li><li>Visit Us</li></ul></div>
+    <div><h4>Education</h4><ul><li>Diamond</li><li>Pearl</li><li>Gold</li><li>Birth Stones</li></ul></div>
+  </div>
+  <div class="social">Facebook · Instagram · YouTube · Pinterest</div>
+  <div class="bottom"><span>Liali Jewellery</span><span>Concept demo · Christmas Mystery Box</span></div>
+</div>
+
+<!-- ================= Demo controls ================= -->
+<details class="demo" id="demo" open>
+  <summary><span>Demo controls</span><span class="chev">▾</span></summary>
+  <div class="body">
+    <div class="timer" id="timerTxt">Popup opens in <b>3:00</b></div>
+    <div class="bar"><i id="timerBar"></i></div>
+    <div class="hint">Time on site only counts while the tab is visible, and carries across page reloads.</div>
+    <label>Trigger after
+      <select id="dDelay"><option value="180">3 minutes (client spec)</option><option value="30">30 seconds</option><option value="10">10 seconds</option></select>
+    </label>
+    <label>Difficulty
+      <select id="dDiff"><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option><option value="expert">Expert</option></select>
+    </label>
+    <div class="tw" id="dTwists"><b>Twists (preset by level — tick to mix)</b></div>
+    <label>Collect mobile + email
+      <select id="dCapture"><option value="after">After the game (play, then claim)</option><option value="before">Before the game (verify to play)</option></select>
+    </label>
+    <div class="row"><button class="go" id="dNow">Trigger now</button><button class="rs" id="dReset">Reset demo</button></div>
+  </div>
+</details>
+
+<!-- ================= Floating launcher ================= -->
+<button class="launcher" id="launcher" type="button"><span class="ic" id="launcherIc"></span><span id="launcherTxt">Your mystery box is waiting</span></button>
+
+<!-- ================= Modal ================= -->
+<div class="overlay" id="overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mbTitle">
+    <div class="snow" id="snow"></div>
+    <button class="close" id="closeBtn" type="button" aria-label="Close">×</button>
+    <div class="scroll">
+      <div class="brandline">LIALI</div>
+
+      <!-- Intro -->
+      <section class="screen" data-screen="intro">
+        <div class="m-eyebrow">A Christmas surprise for you</div>
+        <h2 class="m-title" id="mbTitle">The Golden <em>Mystery Box</em></h2>
+        <div class="intro-boxes" id="introBoxes"></div>
+        <p class="m-text">One of these boxes hides <b>18K gold hoops worth AED&nbsp;510</b>. Watch where the gold goes, follow the shuffle, and pick the right box to make them yours.</p>
+        <div class="steps"><div class="step"><b>1</b>Watch the gold</div><div class="step"><b>2</b>Follow the shuffle</div><div class="step"><b>3</b>Pick &amp; win</div></div>
+        <button class="btn-gold" id="playBtn" type="button">Play now</button>
+        <div><button class="link" id="noThanks" type="button">Maybe later</button></div>
+        <p class="fine">One play per verified mobile number · Every player unlocks a Christmas reward</p>
+      </section>
+
+      <!-- Game -->
+      <section class="screen" data-screen="game">
+        <div class="game-head"><span class="pill" id="levelPill">Level · Medium</span><span class="pill" id="movePill">Shuffle 0/12</span></div>
+        <div class="twist-line" id="twistLine"></div>
+        <div class="msg" id="gameMsg" aria-live="polite">Get ready…</div>
+        <div class="stage" id="stage"></div>
+        <div class="game-cta" id="gameCtaWrap" hidden><button class="btn-gold" id="gameCta" type="button">Claim</button></div>
+      </section>
+
+      <!-- Lead form -->
+      <section class="screen" data-screen="form">
+        <div class="m-eyebrow" id="formEyebrow"></div>
+        <h2 class="m-title" id="formTitle"></h2>
+        <p class="m-text" id="formText"></p>
+        <form class="form" id="leadForm" novalidate>
+          <div class="field" id="fPhone">
+            <label for="phone">Mobile number</label>
+            <div class="phone">
+              <select class="cc" id="cc" aria-label="Country code">
+                <option value="971">🇦🇪 +971</option><option value="968">🇴🇲 +968</option><option value="966">🇸🇦 +966</option><option value="974">🇶🇦 +974</option>
+                <option value="965">🇰🇼 +965</option><option value="973">🇧🇭 +973</option><option value="91">🇮🇳 +91</option><option value="44">🇬🇧 +44</option>
+              </select>
+              <input class="inp" id="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="50 123 4567">
+            </div>
+            <div class="err">Please enter a valid mobile number.</div>
+          </div>
+          <div class="field" id="fEmail">
+            <label for="email">Email address</label>
+            <input class="inp" id="email" type="email" autocomplete="email" placeholder="you@example.com">
+            <div class="err">Please enter a valid email address.</div>
+          </div>
+          <label class="consent"><input type="checkbox" id="terms"><span>I agree to the campaign terms and to receive my code by SMS &amp; email.</span></label>
+          <div class="err" id="termsErr" style="margin-top:-6px">Please accept the terms to continue.</div>
+          <label class="consent"><input type="checkbox" id="mkt"><span>Send me Liali offers and new arrivals.</span></label>
+          <button class="btn-gold" type="submit" id="sendOtp">Send OTP</button>
+        </form>
+      </section>
+
+      <!-- OTP -->
+      <section class="screen" data-screen="otp">
+        <div class="m-eyebrow">Verify your mobile</div>
+        <h2 class="m-title">Enter the <em>6-digit</em> code</h2>
+        <p class="m-text" style="margin-bottom:0">Sent by SMS to <b id="otpTo"></b> · <button class="link" id="editNum" type="button" style="margin:0">Edit</button></p>
+        <div class="otp" id="otpBox"></div>
+        <div class="err" id="otpErr" style="display:block"></div>
+        <button class="btn-gold" id="verifyBtn" type="button" style="margin-top:12px">Verify &amp; continue</button>
+        <p class="otp-meta" id="resendWrap"></p>
+      </section>
+
+      <!-- Result -->
+      <section class="screen" data-screen="result"><div id="resultBody"></div></section>
+    </div>
+  </div>
+</div>
+
+<div class="sms" id="sms" role="status">
+  <div class="top"><span>💬 Messages · LIALI</span><span>now</span></div>
+  <div id="smsTxt"></div>
+  <div class="tag">Demo only — in production this arrives as a real SMS. Tap to autofill.</div>
+</div>
+<canvas id="confetti"></canvas>
+
+<script>
+(() => {
+'use strict';
+
+/* ============ Campaign config — edit these for the client ============ */
+const CONFIG = {
+  triggerSeconds: 180,                       // 3 minutes on site
+  grandPrize: { name: 'Dual Textured Twist Hoops', detail: '18K Gold · Small', value: 'AED 510', prefix: 'LIALI-GOLD',
+                img: 'https://www.lialijewellery.com/cdn/shop/files/vvjvkjbnm.jpg?v=1794651371&width=533' },
+  consolation: { name: 'Extra 10% OFF', detail: 'your Christmas order', prefix: 'XMAS10' },
+  validUntil: '31 Dec 2026',
+  otpLength: 6,
+  otpResendSeconds: 30,
+  otpMaxTries: 5,
+  // moves = number of shuffles; start/end = ms per move (speeds up as it goes);
+  // fake = chance of a fake-out (boxes lunge then return); cycle = chance all three rotate at once;
+  // peek = how long the gold is shown (ms) when "Quick peek" is on; pickSeconds = pick timer;
+  // spins / blackouts = how many carousel spins / lights-out moments; twists = which twists are on by default
+  // morph = [min, max] size range boxes randomly grow/shrink to while shuffling (silent: never announced), null = off
+  difficulty: {
+    easy:   { label: 'Easy',   moves: 7,  start: 650, end: 520, fake: 0,   cycle: 0,   gap: 150, peek: 1700, pickSeconds: 8, spins: 1, blackouts: 1,
+              twists: {} },
+    medium: { label: 'Medium', moves: 12, start: 500, end: 260, fake: .12, cycle: .22, gap: 80,  peek: 1200, pickSeconds: 6, spins: 1, blackouts: 1,
+              twists: { cursor: true, spin: true } },
+    hard:   { label: 'Hard',   moves: 18, start: 400, end: 170, fake: .18, cycle: .25, gap: 30,  peek: 900,  pickSeconds: 5, spins: 1, blackouts: 2, morph: [.68, 1.3],
+              twists: { peek: true, overlap: true, blackout: true, spin: true, timer: true, cursor: true } },
+    expert: { label: 'Expert', moves: 24, start: 330, end: 130, fake: .22, cycle: .3,  gap: 0,   peek: 700,  pickSeconds: 4, spins: 2, blackouts: 3, morph: [.55, 1.4],
+              twists: { peek: true, overlap: true, blackout: true, spin: true, decoy: true, timer: true, cursor: true } }
+  }
+};
+const TWISTS = [
+  ['peek',     'Quick peek at the gold'],
+  ['overlap',  'Non-stop overlapping moves'],
+  ['spin',     'Carousel spin'],
+  ['blackout', 'Lights-out blinks'],
+  ['decoy',    'Random decoy sparkles'],
+  ['timer',    'Pick timer'],
+  ['cursor',   'Hide cursor while shuffling']
+];
+const level = () => CONFIG.difficulty[state.difficulty] || CONFIG.difficulty.hard;
+
+/* ============ Storage (one play per browser in the demo) ============ */
+const KEY = 'liali_xmas_mysterybox_demo';
+const store = {
+  get(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } },
+  set(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch(e){} },
+  clear(){ try { localStorage.removeItem(KEY); } catch(e){} }
+};
+const DEFAULTS = { elapsed:0, shown:false, difficulty:'hard', twists:Object.assign({}, CONFIG.difficulty.hard.twists), capture:'after', delay:CONFIG.triggerSeconds,
+                   result:null, verified:false, cc:'971', phone:'', email:'', code:'' };
+const state = Object.assign({}, DEFAULTS, store.get(),
+  { runId:0, screen:'intro', canPick:false, slotOf:[0,1,2], prizeBox:0, otp:null, otpTries:0, bw:120, pickT:null });
+if (!CONFIG.difficulty[state.difficulty]) { state.difficulty = 'hard'; state.twists = Object.assign({}, CONFIG.difficulty.hard.twists); }
+function persist(){
+  const o = {}; Object.keys(DEFAULTS).forEach(k => o[k] = state[k]); store.set(o);
+}
+
+const $ = s => document.querySelector(s);
+const overlay = $('#overlay');
+
+/* ============ SVG art ============ */
+const GIFT = `<svg class="giftbox" viewBox="0 0 120 120" aria-hidden="true">
+  <g class="base">
+    <rect x="12" y="48" width="96" height="68" rx="5" fill="url(#lgRed)"/>
+    <g fill="#f3d991" opacity=".35"><circle cx="26" cy="64" r="1.7"/><circle cx="40" cy="88" r="1.7"/><circle cx="24" cy="104" r="1.7"/><circle cx="84" cy="66" r="1.7"/><circle cx="96" cy="90" r="1.7"/><circle cx="80" cy="106" r="1.7"/></g>
+    <rect x="52" y="48" width="16" height="68" fill="url(#lgGold)"/>
+    <rect x="12" y="48" width="96" height="7" fill="#2a0309" opacity=".28"/>
+    <rect x="12" y="48" width="96" height="68" rx="5" fill="url(#lgShine)"/>
+  </g>
+  <g class="lid">
+    <rect x="6" y="33" width="108" height="18" rx="3.5" fill="url(#lgRed2)"/>
+    <rect x="52" y="33" width="16" height="18" fill="url(#lgGold)"/>
+    <path d="M60 33C50 13 28 11 33 26C35 32 48 33 60 33Z" fill="url(#lgGold)"/>
+    <path d="M60 33C70 13 92 11 87 26C85 32 72 33 60 33Z" fill="url(#lgGold)"/>
+    <path d="M60 33C53 21 40 19 41 26C42 30 50 32 60 33Z" fill="#9c7a33" opacity=".45"/>
+    <path d="M60 33C67 21 80 19 79 26C78 30 70 32 60 33Z" fill="#9c7a33" opacity=".45"/>
+    <ellipse cx="60" cy="31.5" rx="6.5" ry="5" fill="url(#lgGold)" stroke="#9c7a33" stroke-width=".8"/>
+  </g>
+</svg>`;
+const HOOPS = `<svg viewBox="0 0 100 66" aria-hidden="true">
+  <g fill="none">
+    <circle cx="28" cy="38" r="19" stroke="url(#lgGold)" stroke-width="7"/>
+    <circle cx="28" cy="38" r="19" stroke="#fff6d8" stroke-width="1.6" stroke-dasharray="3 4" opacity=".75"/>
+    <circle cx="72" cy="38" r="19" stroke="url(#lgGold)" stroke-width="7"/>
+    <circle cx="72" cy="38" r="19" stroke="#fff6d8" stroke-width="1.6" stroke-dasharray="3 4" opacity=".75"/>
+  </g>
+  <path class="spark" d="M90 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fff"/>
+  <path class="spark" d="M8 6l1.5 3.5L13 11l-3.5 1.5L8 16l-1.5-3.5L3 11l3.5-1.5z" fill="#fff"/>
+</svg>`;
+const VOUCHER = `<span class="voucher"><span>10%<small>OFF</small></span></span>`;
+
+/* ============ Build static UI ============ */
+$('#introBoxes').innerHTML = [0,1,2].map(() => `<span class="mini">${GIFT}</span>`).join('');
+$('#launcherIc').innerHTML = GIFT;
+(function snow(){
+  const s = $('#snow'); let h = '';
+  for (let i = 0; i < 34; i++) {
+    const size = (Math.random()*3 + 2).toFixed(1);
+    h += `<i class="flake" style="left:${(Math.random()*100).toFixed(1)}%;width:${size}px;height:${size}px;opacity:${(Math.random()*.5+.25).toFixed(2)};--dx:${Math.round(Math.random()*80-40)}px;animation-duration:${(Math.random()*9+8).toFixed(1)}s;animation-delay:-${(Math.random()*16).toFixed(1)}s"></i>`;
+  }
+  s.innerHTML = h;
+})();
+
+const stage = $('#stage');
+const boxes = [0,1,2].map(i => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'box'; b.disabled = true;
+  b.innerHTML = `<span class="box-inner"><span class="prize"></span>${GIFT}<span class="glint"><svg viewBox="0 0 20 20"><path d="M10 0l2.2 7.8L20 10l-7.8 2.2L10 20l-2.2-7.8L0 10l7.8-2.2z" fill="#fff8de"/></svg></span></span>`;
+  b.addEventListener('click', () => pick(i));
+  stage.appendChild(b);
+  return b;
+});
+const otpBox = $('#otpBox');
+const otpInputs = Array.from({ length: CONFIG.otpLength }, (_, i) => {
+  const inp = document.createElement('input');
+  inp.type = 'text'; inp.inputMode = 'numeric'; inp.maxLength = 1; inp.setAttribute('aria-label', `Digit ${i+1}`);
+  if (i === 0) inp.autocomplete = 'one-time-code';
+  otpBox.appendChild(inp);
+  return inp;
+});
+
+/* ============ Screens / modal ============ */
+function show(name){
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.dataset.screen === name));
+  state.screen = name;
+  $('.scroll').scrollTop = 0;
+}
+const isOpen = () => overlay.classList.contains('open');
+
+function openModal(){
+  overlay.classList.add('open'); overlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('lock');
+  updateLauncher(); resumeScreen();
+  setTimeout(() => $('#closeBtn').focus({ preventScroll: true }), 60);
+}
+function closeModal(){
+  if (state.screen === 'game' && !state.result) abortGame();
+  overlay.classList.remove('open'); overlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('lock');
+  updateLauncher();
+}
+function resumeScreen(){
+  if (state.result) return state.verified ? showResult() : showForm();
+  if (state.screen === 'form' || state.screen === 'otp') return show(state.screen);
+  if (state.capture === 'before' && state.verified) return startGame();
+  show('intro');
+}
+function updateLauncher(){
+  const l = $('#launcher');
+  l.classList.toggle('show', state.shown && !isOpen());
+  $('#launcherTxt').textContent = !state.result ? 'Your mystery box is waiting'
+    : (!state.verified ? 'Claim your Christmas prize' : 'View your code');
+}
+
+$('#closeBtn').addEventListener('click', closeModal);
+$('#noThanks').addEventListener('click', closeModal);
+$('#launcher').addEventListener('click', openModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) closeModal(); });
+$('#playBtn').addEventListener('click', () => {
+  if (state.capture === 'before' && !state.verified) showForm(); else startGame();
+});
+
+/* ============ Game ============ */
+const wait = (ms, id) => new Promise((res, rej) => setTimeout(() => id === state.runId ? res() : rej('abort'), ms));
+async function all(id, list){ await Promise.all(list); if (id !== state.runId) throw 'abort'; }
+const setMsg = t => { $('#gameMsg').innerHTML = `<span>${t}</span>`; };
+const rnd = n => Math.floor(Math.random() * n);
+
+function slotX(s){ const col = stage.clientWidth / 3; return col * s + (col - state.bw) / 2; }
+function layout(){
+  const W = stage.clientWidth || 300;
+  const bw = Math.min(140, Math.floor(W * 0.29));
+  state.bw = bw;
+  const top = Math.round(bw * 0.62);
+  stage.style.height = (top + bw + Math.round(bw * 0.3)) + 'px';
+  boxes.forEach((b, i) => {
+    b.style.width = bw + 'px'; b.style.height = bw + 'px'; b.style.top = top + 'px';
+    b.style.transform = `translate(${slotX(state.slotOf[i])}px,0px)`;
+  });
+}
+window.addEventListener('resize', () => { if (state.screen === 'game') layout(); });
+
+// Where a box is on screen right now (works mid-animation, so moves can be redirected in flight)
+function cur(el){
+  try { const m = new DOMMatrixReadOnly(getComputedStyle(el).transform); return { x: m.m41, y: m.m42, s: Math.hypot(m.m11, m.m12) || 1 }; }
+  catch (e) { return { x: 0, y: 0, s: 1 }; }
+}
+// Move a box from wherever it is now to x1 along an arc. dy<0 = up/behind, dy>0 = down/in front.
+// lungeTo: for fake-outs, the box heads toward lungeTo then comes back to x1.
+function move(el, x1, dy, dur, scale = 1, lungeTo = null){
+  const S = cur(el);
+  el.getAnimations().forEach(a => a.cancel());
+  const frames = [], N = 16;
+  for (let k = 0; k <= N; k++) {
+    const t = k / N, sn = Math.sin(Math.PI * t);
+    let x = S.x + (x1 - S.x) * t;
+    if (lungeTo !== null) x += (lungeTo - x1) * .42 * sn;
+    const y = S.y * (1 - t) + dy * sn;
+    const s = S.s * (1 - t) + t + (scale - 1) * sn;
+    frames.push({ transform: `translate(${x}px,${y}px) scale(${s})` });
+  }
+  el.style.transform = `translate(${x1}px,0px)`;
+  const easing = state.twists.overlap ? 'cubic-bezier(.3,.2,.35,1)' : 'ease-in-out';
+  return el.animate(frames, { duration: dur, easing }).finished;
+}
+const z = (el, v) => { el.style.zIndex = v; };
+
+function doSwap(dur, fake){
+  const a = rnd(3), b = (a + 1 + rnd(2)) % 3;
+  const ia = state.slotOf.indexOf(a), ib = state.slotOf.indexOf(b);
+  const h = state.bw * 0.42;
+  z(boxes[ia], 1); z(boxes[ib], 3);
+  if (fake) return [
+    move(boxes[ia], slotX(a), -h, dur, .9, slotX(b)),
+    move(boxes[ib], slotX(b), h * .45, dur, 1.07, slotX(a))
+  ];
+  state.slotOf[ia] = b; state.slotOf[ib] = a;
+  return [
+    move(boxes[ia], slotX(b), -h, dur, .9),
+    move(boxes[ib], slotX(a), h * .45, dur, 1.07)
+  ];
+}
+function doCycle(dur){
+  const dir = Math.random() < .5 ? 1 : 2;   // rotate right or left
+  const list = [0,1,2].map(i => {
+    const s = state.slotOf[i], t = (s + dir) % 3, far = Math.abs(t - s) === 2;
+    z(boxes[i], far ? 1 : 3);
+    return move(boxes[i], slotX(t), far ? -state.bw * .55 : state.bw * .3, dur, far ? .88 : 1.05);
+  });
+  state.slotOf = state.slotOf.map(s => (s + dir) % 3);
+  return list;
+}
+// Carousel: the outer boxes orbit the middle one 1.5 times (passing in front of / behind each other
+// three times) and end up swapped; the middle box hops each time they cross.
+function doSpin(dur){
+  const cx = slotX(1), col = stage.clientWidth / 3, bw = state.bw, TURN = 3 * Math.PI, N = 60;
+  const list = [0,1,2].map(i => {
+    const el = boxes[i], r = (state.slotOf[i] - 1) * col;
+    el.getAnimations().forEach(a => a.cancel());
+    const frames = [];
+    for (let k = 0; k <= N; k++) {
+      const th = TURN * k / N;
+      if (r === 0) {
+        frames.push({ transform: `translate(${cx}px,${-bw * .75 * Math.sin(th) ** 2}px)`, zIndex: '2' });
+      } else {
+        const depth = Math.sign(r) * Math.sin(th);    // +1 = in front
+        frames.push({ transform: `translate(${cx + r * Math.cos(th)}px,${depth * bw * .14}px) scale(${1 + .1 * depth})`, zIndex: depth > 0 ? '3' : '1' });
+      }
+    }
+    el.style.transform = `translate(${cx - r}px,0px)`;
+    return el.animate(frames, { duration: dur, easing: 'ease-in-out' }).finished;
+  });
+  state.slotOf = state.slotOf.map(s => 2 - s);
+  return list;
+}
+// Silent size morph: each box breathes bigger/smaller on its own random rhythm while shuffling,
+// so size can't be used to follow the gold. Eases back to normal as the last move lands.
+let morphs = [];
+function startMorph([lo, hi]){
+  stopMorph();
+  morphs = boxes.map(b => {
+    const kf = [{ transform: 'scale(1)', easing: 'ease-in-out' }];
+    const n = 5 + rnd(3);
+    for (let k = 0; k < n; k++) kf.push({ transform: `scale(${(lo + Math.random() * (hi - lo)).toFixed(3)})`, easing: 'ease-in-out' });
+    kf.push({ transform: 'scale(1)' });
+    return b.querySelector('.box-inner').animate(kf, { duration: 2000 + rnd(1800), iterations: Infinity });
+  });
+}
+function endMorph(dur){
+  morphs.forEach(a => {
+    const el = a.effect.target;
+    let sc = 1;
+    try { const m = new DOMMatrixReadOnly(getComputedStyle(el).transform); sc = Math.hypot(m.m11, m.m12) || 1; } catch (e) {}
+    a.cancel();
+    el.animate([{ transform: `scale(${sc})` }, { transform: 'scale(1)' }], { duration: Math.max(260, dur), easing: 'ease-out' });
+  });
+  morphs = [];
+}
+function stopMorph(){ morphs.forEach(a => a.cancel()); morphs = []; }
+function glint(){
+  const g = boxes[rnd(3)].querySelector('.glint');
+  g.classList.remove('on'); void g.offsetWidth; g.classList.add('on');
+}
+function pickIndexes(count, from, to){     // `count` distinct random move numbers in [from, to)
+  const pool = []; for (let i = from; i < to; i++) pool.push(i);
+  const out = new Set(); while (out.size < Math.min(count, pool.length)) out.add(pool[rnd(pool.length)]);
+  return out;
+}
+
+async function shuffle(id){
+  const d = level(), tw = state.twists;
+  const pending = [];
+  const settle = async () => { await Promise.allSettled(pending.splice(0)); if (id !== state.runId) throw 'abort'; };
+  const spins = tw.spin ? pickIndexes(d.spins, 3, d.moves - 2) : new Set();
+  const darks = tw.blackout ? pickIndexes(d.blackouts, 2, d.moves - 1) : new Set();
+  spins.forEach(i => darks.delete(i));
+  if (tw.cursor) overlay.classList.add('nocursor');
+  if (d.morph) startMorph(d.morph);
+  for (let i = 0; i < d.moves; i++) {
+    const t = d.moves > 1 ? i / (d.moves - 1) : 0;
+    const dur = Math.round(d.start + (d.end - d.start) * t);
+    $('#movePill').textContent = `Shuffle ${i + 1}/${d.moves}`;
+    if (i === d.moves - 1) endMorph(dur);
+    if (tw.decoy && Math.random() < .4) setTimeout(glint, rnd(dur));
+
+    if (spins.has(i)) {                       // spins always run on their own, never overlapped
+      await settle();
+      await all(id, doSpin(Math.max(1500, dur * 4.5)));
+      await wait(120, id);
+      continue;
+    }
+    if (darks.has(i)) {                       // lights out for this move (boxes become faint silhouettes)
+      stage.classList.add('dark');
+      setTimeout(() => stage.classList.remove('dark'), dur * 1.6);
+    }
+    const r = Math.random();
+    const anims = (i > 0 && i < d.moves - 1 && r < d.fake) ? doSwap(Math.round(dur * .9), true)
+                : (r < d.fake + d.cycle) ? doCycle(Math.round(dur * 1.15))
+                : doSwap(dur, false);
+    const p = Promise.all(anims); p.catch(() => {}); pending.push(p);
+    if (tw.overlap && i < d.moves - 1) await wait(Math.round(dur * .55), id);   // next move starts before this one lands
+    else { await settle(); await wait(d.gap, id); }
+  }
+  await settle();
+  endMorph(200);
+  stage.classList.remove('dark');
+  overlay.classList.remove('nocursor');
+}
+
+function resetBoxes(){
+  boxes.forEach(b => {
+    b.getAnimations().forEach(a => a.cancel());
+    b.className = 'box'; b.disabled = true; z(b, 1);
+    b.querySelector('.prize').innerHTML = '';
+  });
+  stage.classList.remove('dark');
+  stopMorph();
+  state.slotOf = [0,1,2];
+}
+function abortGame(){
+  state.runId++; state.canPick = false;
+  clearInterval(state.pickT);
+  overlay.classList.remove('nocursor'); stage.classList.remove('dark');
+  stopMorph();
+  boxes.forEach(b => b.getAnimations().forEach(a => a.cancel()));
+}
+function twistLine(){
+  const d = level(), tw = state.twists, out = [];
+  if (tw.overlap) out.push('non-stop');
+  if (tw.spin) out.push('spin');
+  if (tw.blackout) out.push('lights out');
+  if (tw.decoy) out.push('random sparkles');
+  if (tw.timer) out.push(`${d.pickSeconds}s timer`);
+  return out.length ? 'Watch out: ' + out.join(' · ') : '';
+}
+
+async function startGame(){
+  const id = ++state.runId;
+  const d = level();
+  show('game');
+  $('#gameCtaWrap').hidden = true;
+  $('#levelPill').textContent = `Level · ${d.label}`;
+  $('#movePill').textContent = `Shuffle 0/${d.moves}`;
+  $('#movePill').classList.remove('urgent');
+  $('#twistLine').textContent = twistLine();
+  resetBoxes(); layout();
+  state.prizeBox = rnd(3);
+  try {
+    setMsg('Watch closely…');
+    await wait(700, id);
+    const pb = boxes[state.prizeBox];
+    pb.querySelector('.prize').innerHTML = HOOPS;
+    pb.classList.add('open'); await wait(380, id);
+    pb.classList.add('reveal');
+    setMsg('The <em style="color:var(--gold-hi)">gold hoops</em> go in this box');
+    await wait(state.twists.peek ? d.peek : 1700, id);
+    pb.classList.remove('reveal'); await wait(state.twists.peek ? 250 : 500, id);
+    pb.classList.remove('open'); await wait(450, id);
+    pb.querySelector('.prize').innerHTML = '';   // don't leave the answer in the DOM
+    for (const n of [3, 2, 1]) { setMsg(`Shuffling in ${n}…`); await wait(state.twists.peek ? 450 : 620, id); }
+    setMsg('Keep your eye on the gold…');
+    await shuffle(id);
+    layout();
+    boxes.forEach((b, i) => {
+      const s = state.slotOf[i];
+      b.dataset.slot = s; b.disabled = false; b.classList.add('pickable'); z(b, 1);
+      b.setAttribute('aria-label', ['Left box', 'Middle box', 'Right box'][s]);
+    });
+    state.canPick = true;
+    setMsg('Where is the gold? <em style="color:var(--gold-hi)">Tap a box.</em>');
+    if (state.twists.timer) startPickTimer(id, d.pickSeconds);
+  } catch (e) { /* aborted (modal closed / reset) */ }
+}
+function startPickTimer(id, secs){
+  clearInterval(state.pickT);
+  let left = secs;
+  const pill = $('#movePill');
+  const tick = () => {
+    if (id !== state.runId || !state.canPick) { clearInterval(state.pickT); return; }
+    pill.textContent = `⏱ ${left}s`;
+    pill.classList.toggle('urgent', left <= 2);
+    if (left <= 0) { clearInterval(state.pickT); pick(-1); return; }
+    left--;
+  };
+  tick();
+  state.pickT = setInterval(tick, 1000);
+}
+
+async function pick(i){          // i = -1 means the pick timer ran out
+  if (!state.canPick) return;
+  state.canPick = false;
+  clearInterval(state.pickT);
+  const id = state.runId;
+  const timeout = i < 0;
+  const won = !timeout && i === state.prizeBox;
+  state.result = won ? 'win' : 'lose';
+  persist();
+  boxes.forEach(b => { b.classList.remove('pickable'); b.disabled = true; });
+  try {
+    if (timeout) {
+      $('#movePill').textContent = '⏱ 0s';
+      setMsg(`Time's up!`);
+      await wait(700, id);
+    } else {
+      $('#movePill').classList.remove('urgent');
+      const b = boxes[i];
+      b.classList.add('chosen');
+      setMsg('Opening your box…');
+      await wait(450, id);
+      b.querySelector('.prize').innerHTML = won ? HOOPS : VOUCHER;
+      b.classList.add('open'); await wait(380, id); b.classList.add('reveal');
+      if (won) { setMsg('✨ You found the gold! ✨'); confetti(); }
+      else { setMsg('So close! Your box holds <em style="color:var(--gold-hi)">10% OFF</em>'); await wait(1100, id); }
+    }
+    if (!won) {
+      const pb = boxes[state.prizeBox];
+      pb.querySelector('.prize').innerHTML = HOOPS;
+      pb.classList.add('open'); await wait(380, id); pb.classList.add('reveal');
+      setMsg(timeout ? 'The gold was here — but you still get 10% OFF!' : 'The gold was hiding here — but your 10% OFF is yours!');
+    }
+    boxes.forEach((x, j) => { if (j !== i && j !== state.prizeBox) x.classList.add('dim'); });
+    await wait(700, id);
+  } catch (e) {}
+  $('#gameCta').textContent = state.verified ? 'See my code'
+    : (won ? 'Claim my gold hoops' : 'Claim my 10% OFF');
+  $('#gameCtaWrap').hidden = false;
+  updateLauncher();
+}
+$('#gameCta').addEventListener('click', () => state.verified ? showResult() : showForm());
+
+/* ============ Lead form ============ */
+const PH = { '971':'50 123 4567', '968':'9123 4567', '966':'50 123 4567', '974':'3312 3456', '965':'5012 3456', '973':'3600 1234', '91':'98765 43210', '44':'7400 123456' };
+const cleanPhone = v => v.replace(/\D/g, '').replace(/^0+/, '');
+function validPhone(cc, n){
+  const rules = { '971':/^5\d{8}$/, '968':/^[79]\d{7}$/, '966':/^5\d{8}$/, '974':/^[3567]\d{7}$/, '965':/^[569]\d{7}$/, '973':/^[36]\d{7}$/, '91':/^[6-9]\d{9}$/, '44':/^7\d{9}$/ };
+  return (rules[cc] || /^\d{7,12}$/).test(n);
+}
+const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+$('#cc').addEventListener('change', e => { $('#phone').placeholder = PH[e.target.value] || ''; });
+
+function showForm(){
+  const r = state.result;
+  const copy = r === 'win'
+    ? ['Almost yours', 'Claim your <em>18K gold hoops</em>', `Verify your mobile number and we'll reserve your prize and send your redemption code.`, 'Send OTP & claim']
+    : r === 'lose'
+    ? ['Your Christmas reward', 'Claim your <em>extra 10% OFF</em>', `Verify your mobile number and we'll send your code by SMS and email.`, 'Send OTP & claim']
+    : ['Step 1 of 2', 'Verify to <em>unlock</em> your box', `Enter your details and we'll text you a one-time code. One play per verified number.`, 'Send OTP'];
+  $('#formEyebrow').textContent = copy[0];
+  $('#formTitle').innerHTML = copy[1];
+  $('#formText').textContent = copy[2];
+  $('#sendOtp').textContent = copy[3];
+  $('#cc').value = state.cc; $('#phone').placeholder = PH[state.cc];
+  if (state.phone) $('#phone').value = state.phone;
+  if (state.email) $('#email').value = state.email;
+  show('form');
+}
+['phone', 'email'].forEach(id => $('#' + id).addEventListener('input', e => e.target.closest('.field').classList.remove('bad')));
+$('#terms').addEventListener('change', () => { $('#termsErr').style.display = 'none'; });
+
+$('#leadForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const cc = $('#cc').value, n = cleanPhone($('#phone').value), em = $('#email').value.trim();
+  let ok = true;
+  if (!validPhone(cc, n)) { $('#fPhone').classList.add('bad'); ok = false; }
+  if (!validEmail(em)) { $('#fEmail').classList.add('bad'); ok = false; }
+  if (!$('#terms').checked) { $('#termsErr').style.display = 'block'; ok = false; }
+  if (!ok) return;
+  state.cc = cc; state.phone = n; state.email = em; persist();
+  sendOtp();
+});
+
+/* ============ OTP ============ */
+let resendTimer = null, smsTimer = null;
+const fmtPhone = () => `+${state.cc} ${state.phone.replace(/(\d{2})(\d+)(\d{3})$/, (m, a, b, c) => a + ' ' + '•'.repeat(b.length) + ' ' + c)}`;
+function sendOtp(){
+  state.otp = String(Math.floor(10 ** (CONFIG.otpLength - 1) + Math.random() * 9 * 10 ** (CONFIG.otpLength - 1)));
+  state.otpTries = 0;
+  otpInputs.forEach(i => { i.value = ''; i.disabled = false; });
+  otpBox.classList.remove('ok');
+  $('#otpErr').textContent = '';
+  $('#verifyBtn').disabled = false; $('#verifyBtn').textContent = 'Verify & continue';
+  $('#otpTo').textContent = fmtPhone();
+  show('otp');
+  setTimeout(() => otpInputs[0].focus(), 80);
+  setTimeout(() => smsToast(state.otp), 900);
+  startResend();
+}
+function smsToast(code){
+  $('#smsTxt').innerHTML = `<b>${code}</b> is your Liali Christmas Mystery Box code. It expires in 5 minutes. Never share this code.`;
+  const s = $('#sms'); s.classList.add('show');
+  clearTimeout(smsTimer); smsTimer = setTimeout(() => s.classList.remove('show'), 14000);
+}
+$('#sms').addEventListener('click', () => {
+  $('#sms').classList.remove('show');
+  if (state.screen === 'otp' && state.otp) { state.otp.split('').forEach((d, i) => otpInputs[i].value = d); verify(); }
+});
+function startResend(){
+  clearInterval(resendTimer);
+  let left = CONFIG.otpResendSeconds;
+  const w = $('#resendWrap');
+  const render = () => {
+    if (left > 0) w.textContent = `Resend code in 0:${String(left).padStart(2, '0')}`;
+    else { w.innerHTML = `Didn't get it? <button class="link" id="resendBtn" type="button" style="margin:0">Resend code</button>`; $('#resendBtn').onclick = sendOtp; clearInterval(resendTimer); }
+  };
+  render();
+  resendTimer = setInterval(() => { left--; render(); }, 1000);
+}
+otpInputs.forEach((inp, i) => {
+  inp.addEventListener('input', () => {
+    inp.value = inp.value.replace(/\D/g, '').slice(-1);
+    $('#otpErr').textContent = '';
+    if (inp.value && i < otpInputs.length - 1) otpInputs[i + 1].focus();
+    if (otpInputs.every(x => x.value)) verify();
+  });
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Backspace' && !inp.value && i > 0) { otpInputs[i - 1].focus(); otpInputs[i - 1].value = ''; }
+    if (e.key === 'ArrowLeft' && i > 0) otpInputs[i - 1].focus();
+    if (e.key === 'ArrowRight' && i < otpInputs.length - 1) otpInputs[i + 1].focus();
+    if (e.key === 'Enter') verify();
+  });
+  inp.addEventListener('paste', e => {
+    const t = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, otpInputs.length);
+    if (!t) return;
+    e.preventDefault();
+    t.split('').forEach((d, k) => { if (otpInputs[k]) otpInputs[k].value = d; });
+    otpInputs[Math.min(t.length, otpInputs.length) - 1].focus();
+    if (t.length === otpInputs.length) verify();
+  });
+});
+function verify(){
+  const code = otpInputs.map(i => i.value).join('');
+  if (!state.otp || $('#verifyBtn').disabled) return;
+  if (code.length < otpInputs.length) { $('#otpErr').textContent = 'Please enter all 6 digits.'; return; }
+  if (code === state.otp) {
+    otpBox.classList.add('ok');
+    $('#verifyBtn').textContent = 'Verified ✓'; $('#verifyBtn').disabled = true;
+    clearInterval(resendTimer); $('#sms').classList.remove('show');
+    state.verified = true; state.otp = null; persist();
+    setTimeout(() => state.result ? showResult() : startGame(), 650);
+    return;
+  }
+  state.otpTries++;
+  otpBox.classList.remove('shake'); void otpBox.offsetWidth; otpBox.classList.add('shake');
+  otpInputs.forEach(i => i.value = ''); otpInputs[0].focus();
+  const left = CONFIG.otpMaxTries - state.otpTries;
+  if (left <= 0) {
+    state.otp = null;
+    otpInputs.forEach(i => i.disabled = true);
+    $('#otpErr').textContent = 'Too many attempts. Please request a new code.';
+    $('#verifyBtn').disabled = true;
+  } else {
+    $('#otpErr').textContent = `That code doesn't match. ${left} attempt${left > 1 ? 's' : ''} left.`;
+  }
+}
+$('#verifyBtn').addEventListener('click', verify);
+$('#editNum').addEventListener('click', () => { clearInterval(resendTimer); showForm(); });
+
+/* ============ Result ============ */
+function makeCode(prefix){
+  const ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return prefix + '-' + Array.from({ length: 5 }, () => ch[rnd(ch.length)]).join('');
+}
+const maskEmail = e => e.replace(/^(.{2})[^@]*/, (m, a) => a + '•••');
+function showResult(){
+  const win = state.result === 'win';
+  if (!state.code) { state.code = makeCode(win ? CONFIG.grandPrize.prefix : CONFIG.consolation.prefix); persist(); }
+  const g = CONFIG.grandPrize;
+  $('#resultBody').innerHTML = win ? `
+    <div class="m-eyebrow">Merry Christmas from Liali</div>
+    <h2 class="m-title">You won <em>18K gold hoops!</em></h2>
+    <div class="trophy" id="trophy">${HOOPS}</div>
+    <div class="prize-card"><b>${g.name}</b><span>${g.detail} · worth ${g.value}</span></div>
+    <div class="code"><span>${state.code}</span><button type="button" id="copyBtn">Copy</button></div>
+    <p class="m-text" style="font-size:13px">Also sent to <b>${fmtPhone()}</b> and <b>${maskEmail(state.email)}</b></p>
+    <a class="btn-gold" href="#">Redeem at checkout</a>
+    <p class="fine">Valid until ${CONFIG.validUntil} · One prize per verified mobile number · Terms apply<br><i>Placeholder terms — to be confirmed by Liali.</i></p>`
+  : `
+    <div class="m-eyebrow">Merry Christmas from Liali</div>
+    <h2 class="m-title">So close — <em>10% OFF</em> is yours</h2>
+    <div class="trophy" style="width:170px">${VOUCHER}</div>
+    <p class="m-text">The gold slipped away this time, but your box held an <b>extra 10% off</b> your Christmas order.</p>
+    <div class="code"><span>${state.code}</span><button type="button" id="copyBtn">Copy</button></div>
+    <p class="m-text" style="font-size:13px">Also sent to <b>${fmtPhone()}</b> and <b>${maskEmail(state.email)}</b></p>
+    <a class="btn-gold" href="#">Shop Christmas gifts</a>
+    <p class="fine">Valid until ${CONFIG.validUntil} · One code per verified mobile number · Terms apply<br><i>Placeholder terms — to be confirmed by Liali.</i></p>`;
+  const tr = $('#trophy');
+  if (tr && g.img) {                      // real product photo, falls back to the drawn hoops
+    const im = new Image();
+    im.alt = g.name; im.className = 'trophy-img';
+    im.onload = () => { tr.innerHTML = ''; tr.appendChild(im); };
+    im.src = g.img;
+  }
+  $('#copyBtn').addEventListener('click', async e => {
+    try { await navigator.clipboard.writeText(state.code); }
+    catch (err) { const t = document.createElement('textarea'); t.value = state.code; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (x) {} t.remove(); }
+    e.target.textContent = 'Copied ✓';
+  });
+  show('result');
+  updateLauncher();
+}
+
+/* ============ Confetti ============ */
+function confetti(){
+  const c = $('#confetti'), ctx = c.getContext('2d'), dpr = window.devicePixelRatio || 1;
+  const W = innerWidth, H = innerHeight;
+  c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const colors = ['#f0d896', '#c9a24f', '#ffffff', '#c22339', '#1f5c43'];
+  const ps = Array.from({ length: 170 }, () => ({
+    x: W / 2 + (Math.random() - .5) * 140, y: H * .42, vx: (Math.random() - .5) * 14, vy: -Math.random() * 13 - 4,
+    s: Math.random() * 7 + 4, r: Math.random() * 6.28, vr: (Math.random() - .5) * .3, c: colors[rnd(colors.length)]
+  }));
+  let f = 0;
+  (function tick(){
+    ctx.clearRect(0, 0, W, H);
+    ps.forEach(p => {
+      p.vy += .3; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore();
+    });
+    if (++f < 210) requestAnimationFrame(tick); else ctx.clearRect(0, 0, W, H);
+  })();
+}
+
+/* ============ Time-on-site trigger ============ */
+function renderTimer(){
+  const left = Math.max(0, state.delay - state.elapsed);
+  $('#timerTxt').innerHTML = state.shown ? 'Popup triggered <b>✓</b>'
+    : `Popup opens in <b>${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}</b>`;
+  $('#timerBar').style.width = (state.shown ? 100 : Math.min(100, state.elapsed / state.delay * 100)) + '%';
+}
+setInterval(() => {
+  if (!state.shown && document.visibilityState === 'visible' && !isOpen()) {
+    state.elapsed++;
+    if (state.elapsed % 5 === 0) persist();
+    if (state.elapsed >= state.delay) { state.shown = true; persist(); openModal(); }
+  }
+  renderTimer();
+}, 1000);
+
+/* ============ Demo controls ============ */
+$('#dDelay').value = String(state.delay);
+if (!$('#dDelay').value) $('#dDelay').value = '180';
+$('#dDiff').value = state.difficulty;
+$('#dCapture').value = state.capture;
+$('#dDelay').addEventListener('change', e => { state.delay = +e.target.value; persist(); renderTimer(); });
+function renderTwists(){
+  $('#dTwists').querySelectorAll('input').forEach(inp => { inp.checked = !!state.twists[inp.value]; });
+}
+$('#dTwists').insertAdjacentHTML('beforeend', TWISTS.map(([k, label]) =>
+  `<label><input type="checkbox" value="${k}">${label}</label>`).join(''));
+$('#dTwists').addEventListener('change', e => { state.twists[e.target.value] = e.target.checked; persist(); });
+$('#dDiff').addEventListener('change', e => {
+  state.difficulty = e.target.value;
+  state.twists = Object.assign({}, level().twists);
+  renderTwists(); persist();
+});
+renderTwists();
+$('#dCapture').addEventListener('change', e => { state.capture = e.target.value; persist(); });
+$('#dNow').addEventListener('click', () => { state.shown = true; persist(); openModal(); });
+$('#dReset').addEventListener('click', () => {
+  abortGame(); resetBoxes(); clearInterval(resendTimer); $('#sms').classList.remove('show');
+  const keep = { difficulty: state.difficulty, twists: state.twists, capture: state.capture, delay: state.delay };
+  Object.assign(state, DEFAULTS, keep, { screen: 'intro', otp: null });
+  store.clear(); persist();
+  $('#leadForm').reset();
+  document.querySelectorAll('.field').forEach(f => f.classList.remove('bad'));
+  $('#termsErr').style.display = 'none';
+  closeModal(); renderTimer();
+});
+
+if (window.innerWidth < 700) $('#demo').open = false;
+// storefront: rotating announcement bar + hero snow
+(function(){
+  const ms = document.querySelectorAll('#annMsgs span'); let k = 0;
+  if (ms.length) setInterval(() => { ms[k].classList.remove('on'); k = (k + 1) % ms.length; ms[k].classList.add('on'); }, 3500);
+  if ($('#archFb')) $('#archFb').innerHTML = HOOPS;
+  const hs = $('#heroSnow'); let h = '';
+  for (let i = 0; i < 45; i++) {
+    const sz = (Math.random() * 3 + 1.5).toFixed(1);
+    h += `<i class="flake" style="left:${(Math.random()*100).toFixed(1)}%;width:${sz}px;height:${sz}px;opacity:${(Math.random()*.45+.2).toFixed(2)};--dx:${Math.round(Math.random()*80-40)}px;animation-duration:${(Math.random()*10+9).toFixed(1)}s;animation-delay:-${(Math.random()*18).toFixed(1)}s"></i>`;
+  }
+  if (hs) hs.innerHTML = h;
+})();
+renderTimer(); updateLauncher();
+})();
+</script>
+</body>
+</html>
